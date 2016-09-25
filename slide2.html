@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>渐变轮播图</title>
+	<script src='js/jquery.min.js'></script>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		body{
+			margin:8px;
+		}
+		.slidewarp {
+			position: relative;
+			overflow: hidden;
+            width:700px;
+            height:320px;
+        }
+       	ul.slide {
+       		position: relative;
+       		overflow: hidden;
+            height:320px;
+        }
+        .slide li{
+        	/*position: absolute;
+       		top: 0;
+       		left: 0;*/
+        }
+        .slide img{
+        	width: 700px;
+        }
+        .ctrl{
+        	position: absolute;
+			bottom: 10px;
+			left: 50%;
+        	/*width: 75px;*/
+        	border-radius: 6px;
+        	background: rgba(0,0,0,.5);
+        }
+        .ctrl_item{
+        	float: left;
+        	width: 12px;
+        	height: 12px;
+        	margin: 4px 5px;
+        	border-radius: 50%;
+        	background: #fff;
+        	cursor: pointer;
+        }
+        .ctrl_item_active{
+        	background: #FE6500;
+        }
+	</style>
+</head>
+<body>
+<div class="slidewarp">
+	<ul class="slide">
+		<li><img src="images/1.jpg"></li>
+		<li><img src="images/2.jpg"></li>
+		<li><img src="images/3.jpg"></li>
+		<li><img src="images/4.jpg"></li>
+		<li><img src="images/5.jpg"></li>
+	</ul>
+	<div class="ctrl">
+		<span class="ctrl_item ctrl_item_active"></span>
+		<span class="ctrl_item"></span>
+		<span class="ctrl_item"></span>
+		<span class="ctrl_item"></span>
+		<span class="ctrl_item"></span>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+
+var slidewarp = $('.slidewarp');
+var slide = $('.slide');
+var slide_item = slide.find('li');
+var ctrl = $('.ctrl');
+var ctrl_item = $('.ctrl_item');
+var index = 0;
+var len = slide_item.length;
+var timer = null;
+
+ctrl.css({
+	marginLeft: -($('.ctrl').width()/2)
+});
+slide.css('width',slide.width()*len);
+slide_item.css({
+	float: 'left'
+	
+});
+
+ctrl_item.on('click', function(event) {
+	var old = index;
+	index = $(this).index();
+	change(index,old);
+});
+
+slidewarp.on('mouseover', function(event) {
+	clearInterval(timer);
+});
+
+slidewarp.on('mouseleave', function(event) {
+	autoStart();
+});
+
+autoStart();
+
+function autoStart (argument) {
+	timer = setInterval(function (e) {
+	var old = index;
+	if (index >= len-1) {
+		index = 0;
+	}else {
+		index++;
+	}
+	change(index,old);
+},2000);
+}
+
+function change (show,hiden) {
+	var x = show * slide_item.width();
+	slide.animate({'marginLeft':-x});
+	ctrl_item.eq(show).addClass('ctrl_item_active').siblings().removeClass('ctrl_item_active');
+}
+
+</script>
+</body>
+</html>
