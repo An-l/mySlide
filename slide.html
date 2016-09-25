@@ -4,71 +4,7 @@
 	<meta charset="UTF-8">
 	<title>渐变轮播图</title>
 	<script src='js/jquery.min.js'></script>
-	<style>
-		*{
-			padding: 0;
-			margin: 0;
-		}
-		body{
-			margin:8px;
-		}
-		.slidewarp {
-			position: relative;
-            width:700px;
-            height:320px;
-        }
-       	ul.slide {
-       		position: relative;
-       		overflow: hidden;
-            height:320px;
-        }
-        .slide li{
-        	position: absolute;
-       		top: 0;
-       		left: 0;
-        }
-        .slide img{
-        	width: 700px;
-        }
-        .ctrl{
-        	position: absolute;
-			bottom: 10px;
-			left: 50%;
-        	/*width: 75px;*/
-        	border-radius: 6px;
-        	background: rgba(0,0,0,.5);
-        }
-        .ctrl_item{
-        	float: left;
-        	width: 12px;
-        	height: 12px;
-        	margin: 4px 5px;
-        	border-radius: 50%;
-        	background: #fff;
-        	cursor: pointer;
-        }
-        .ctrl_item_active{
-        	background: #FE6500;
-        }
-        .prev,
-        .next{
-        	position: absolute;
-        	top: 50%;
-        	margin-top: -35px;
-			width: 35px;
-			height: 70px;
-			border-radius: 5px;
-			z-index: 10;
-        }
-        .prev{
-        	left: 5px;
-        	background: rgba(0,0,0,.4) url(images/arrow-left.png) no-repeat center;
-        }
-        .next{
-        	right: 5px;
-        	background: rgba(0,0,0,.4) url(images/arrow-right.png) no-repeat center;
-        }
-	</style>
+	<link rel="stylesheet" href="css/slide.css">
 </head>
 <body>
 <div class="slidewarp">
@@ -126,6 +62,7 @@ $(function () {
 
 	$('.prev').on('click', function(event) {
 		var old = index;
+
 		if (index == 0) {
 			index = len-1;
 		}else {
