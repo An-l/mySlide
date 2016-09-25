@@ -1,55 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>左右滚动轮播图</title>
-	<script src='js/jquery.min.js'></script>
-	<link rel="stylesheet" href="css/slide.css">
-</head>
-<body>
-<div class="slidewarp">
-	<ul class="slide">
-		<li><img src="images/1.jpg"></li>
-		<li><img src="images/2.jpg"></li>
-		<li><img src="images/3.jpg"></li>
-		<li><img src="images/4.jpg"></li>
-		<li><img src="images/5.jpg"></li>
-	</ul>
-	<div class="ctrl">
-		<span class="ctrl_item ctrl_item_active"></span>
-		<span class="ctrl_item"></span>
-		<span class="ctrl_item"></span>
-		<span class="ctrl_item"></span>
-		<span class="ctrl_item"></span>
-	</div>
-	<a class="prev" href="javascript:;"></a>
-	<a class="next" href="javascript:;"></a>
-</div>
-</div>
+var slide = function (cfg) {
+	
+	var cfg =  cfg || {};
 
-<script type="text/javascript">
-$(function (argument) {
+	cfg = $.extend({
+		change:'opacity'
+	},cfg);
 	
 	var slidewarp = $('.slidewarp');
 	var slide = $('.slide');
 	var slide_item = slide.find('li');
 	var ctrl = $('.ctrl');
 	var ctrl_item = $('.ctrl_item');
+	var slide_change = $('.slide_change');
 	var index = 0;
 	var len = slide_item.length;
 	var timer = null;
 
-	ctrl.css({
-		marginLeft: -($('.ctrl').width()/2)
-	});
+	switch (cfg.change) {
+		case 'opacity':
+			// statements_1
+			ctrl.css({
+				marginLeft: -($('.ctrl').width()/2)
+			});
+			slide_item.hide().css('opacity', '0');
+			slide_item.eq(index).show().css('opacity', '1');
+			break;
+		case 'x':
+			// statements_2
+			ctrl.css({
+				marginLeft: -($('.ctrl').width()/2)
+			});
 
-	slide.css('width',slide.width()*len);
+			slide.css('width',slide.width()*len);
 
-	slide_item.css({
-		float: 'left',
-		position: 'relative'
-	});
+			slide_item.css({
+				float: 'left',
+				position: 'relative'
+			});
+			break;
+		case 'y':
+			// statements_3
+			break;
+		default:
+			// statements_def
+			break;
+	}
 
+
+	
 
 	ctrl_item.on('click', function(event) {
 		var old = index;
@@ -59,14 +57,18 @@ $(function (argument) {
 
 	slidewarp.on('mouseover', function(event) {
 		clearInterval(timer);
+		slide_change.css('opacity', '.6');
 	});
 
 	slidewarp.on('mouseleave', function(event) {
 		autoStart();
+		slide_change.css('opacity', '.2');
 	});
+
 
 	$('.prev').on('click', function(event) {
 		var old = index;
+
 		if (index == 0) {
 			index = len-1;
 		}else {
@@ -85,7 +87,6 @@ $(function (argument) {
 		change(index,old);
 	});
 
-
 	autoStart();
 
 	function autoStart (argument) {
@@ -101,14 +102,23 @@ $(function (argument) {
 	}
 
 	function change (show,hiden) {
-		var x = show * slide_item.width();
-		slide.animate({'marginLeft':-x});
+		switch (cfg.change) {
+		case 'opacity':
+			// statements_1
+			slide_item.eq(hiden).animate({opacity:0},1000);
+			slide_item.eq(show).show().animate({opacity:1},1000);
+			break;
+		case 'x':
+			// statements_2
+			var x = show * slide_item.width();
+			slide.animate({'marginLeft':-x});
+			break;
+		case 'y':
+			// statements_3
+			break;
+		}
 		ctrl_item.eq(show).addClass('ctrl_item_active').siblings().removeClass('ctrl_item_active');
 	}
 
-
-});
-
-</script>
-</body>
-</html>
+};
+	

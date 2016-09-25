@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>渐变轮播图</title>
+	<title>轮播图(opacity and x)</title>
 	<script src='js/jquery.min.js'></script>
 	<link rel="stylesheet" href="css/slide.css">
 </head>
@@ -22,85 +22,94 @@
 		<span class="ctrl_item"></span>
 		<span class="ctrl_item"></span>
 	</div>
-	<a class="prev" href="javascript:;"></a>
-	<a class="next" href="javascript:;"></a>
+	<a class="prev slide_change" href="javascript:;"></a>
+	<a class="next slide_change" href="javascript:;"></a>
 </div>
-
+<script type="text/javascript" src='js/slide.js'></script>
 <script type="text/javascript">
+var cfg = {
+	change:'x'
+};
 
-$(function () {
-	var slidewarp = $('.slidewarp');
-	var slide = $('.slide');
-	var slide_item = slide.find('li');
-	var ctrl = $('.ctrl');
-	var ctrl_item = $('.ctrl_item');
-	var index = 0;
-	var len = slide_item.length;
-	var timer = null;
+var slide = new slide(cfg);
 
-	$('.ctrl').css({
-		marginLeft: -($('.ctrl').width()/2)
-	});
-	slide_item.hide().css('opacity', '0');
-	slide_item.eq(index).show().css('opacity', '1');
+// $(function () {
 
+// 	var slidewarp = $('.slidewarp');
+// 	var slide = $('.slide');
+// 	var slide_item = slide.find('li');
+// 	var ctrl = $('.ctrl');
+// 	var ctrl_item = $('.ctrl_item');
+// 	var slide_change = $('.slide_change');
+// 	var index = 0;
+// 	var len = slide_item.length;
+// 	var timer = null;
 
-	ctrl_item.on('click', function(event) {
-		var old = index;
-		index = $(this).index();
-		change(index,old);
-	});
-
-	slidewarp.on('mouseover', function(event) {
-		clearInterval(timer);
-	});
-
-	slidewarp.on('mouseleave', function(event) {
-		autoStart();
-	});
+// 	ctrl.css({
+// 		marginLeft: -($('.ctrl').width()/2)
+// 	});
+// 	slide_item.hide().css('opacity', '0');
+// 	slide_item.eq(index).show().css('opacity', '1');
 
 
-	$('.prev').on('click', function(event) {
-		var old = index;
+// 	ctrl_item.on('click', function(event) {
+// 		var old = index;
+// 		index = $(this).index();
+// 		change(index,old);
+// 	});
 
-		if (index == 0) {
-			index = len-1;
-		}else {
-			index--;
-		}
-		change(index,old);
-	});
+// 	slidewarp.on('mouseover', function(event) {
+// 		clearInterval(timer);
+// 		slide_change.css('opacity', '.6');
+// 	});
 
-	$('.next').on('click', function(event) {
-		var old = index;
-		if (index == len-1) {
-			index = 0;
-		}else {
-			index++;
-		}
-		change(index,old);
-	});
+// 	slidewarp.on('mouseleave', function(event) {
+// 		autoStart();
+// 		slide_change.css('opacity', '.2');
+// 	});
 
-	autoStart();
 
-	function autoStart (argument) {
-		timer = setInterval(function (e) {
-		var old = index;
-		if (index >= len-1) {
-			index = 0;
-		}else {
-			index++;
-		}
-		change(index,old);
-	},2000);
-	}
+// 	$('.prev').on('click', function(event) {
+// 		var old = index;
 
-	function change (show,hiden) {
-		slide_item.eq(hiden).animate({opacity:0},1000);
-		slide_item.eq(show).show().animate({opacity:1},1000);
-		ctrl_item.eq(show).addClass('ctrl_item_active').siblings().removeClass('ctrl_item_active');
-	}
-});
+// 		if (index == 0) {
+// 			index = len-1;
+// 		}else {
+// 			index--;
+// 		}
+// 		change(index,old);
+// 	});
+
+// 	$('.next').on('click', function(event) {
+// 		var old = index;
+// 		if (index == len-1) {
+// 			index = 0;
+// 		}else {
+// 			index++;
+// 		}
+// 		change(index,old);
+// 	});
+
+// 	autoStart();
+
+// 	function autoStart (argument) {
+// 		timer = setInterval(function (e) {
+// 		var old = index;
+// 		if (index >= len-1) {
+// 			index = 0;
+// 		}else {
+// 			index++;
+// 		}
+// 		change(index,old);
+// 	},2000);
+// 	}
+
+// 	function change (show,hiden) {
+// 		slide_item.eq(hiden).animate({opacity:0},1000);
+// 		slide_item.eq(show).show().animate({opacity:1},1000);
+// 		ctrl_item.eq(show).addClass('ctrl_item_active').siblings().removeClass('ctrl_item_active');
+// 	}
+// });
 
 </script>
 </body>
