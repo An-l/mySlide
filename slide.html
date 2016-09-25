@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>渐变轮播图</title>
-	<script src='js/lib/jquery.js'></script>
+	<script src='js/jquery.min.js'></script>
 	<style>
 		*{
 			padding: 0;
@@ -50,6 +50,24 @@
         .ctrl_item_active{
         	background: #FE6500;
         }
+        .prev,
+        .next{
+        	position: absolute;
+        	top: 50%;
+        	margin-top: -35px;
+			width: 35px;
+			height: 70px;
+			border-radius: 5px;
+			z-index: 10;
+        }
+        .prev{
+        	left: 5px;
+        	background: rgba(0,0,0,.4) url(images/arrow-left.png) no-repeat center;
+        }
+        .next{
+        	right: 5px;
+        	background: rgba(0,0,0,.4) url(images/arrow-right.png) no-repeat center;
+        }
 	</style>
 </head>
 <body>
@@ -68,58 +86,84 @@
 		<span class="ctrl_item"></span>
 		<span class="ctrl_item"></span>
 	</div>
+	<a class="prev" href="javascript:;"></a>
+	<a class="next" href="javascript:;"></a>
 </div>
 
 <script type="text/javascript">
-$('.ctrl').css({
-	marginLeft: -($('.ctrl').width()/2)
-});
 
-var slidewarp = $('.slidewarp');
-var slide = $('.slide');
-var slide_item = slide.find('li');
-var ctrl = $('.ctrl');
-var ctrl_item = $('.ctrl_item');
-var index = 0;
-var len = slide_item.length;
-var timer = null;
+$(function () {
+	var slidewarp = $('.slidewarp');
+	var slide = $('.slide');
+	var slide_item = slide.find('li');
+	var ctrl = $('.ctrl');
+	var ctrl_item = $('.ctrl_item');
+	var index = 0;
+	var len = slide_item.length;
+	var timer = null;
 
-slide_item.hide().css('opacity', '0');
-slide_item.eq(index).show().css('opacity', '1');
+	$('.ctrl').css({
+		marginLeft: -($('.ctrl').width()/2)
+	});
+	slide_item.hide().css('opacity', '0');
+	slide_item.eq(index).show().css('opacity', '1');
 
-ctrl_item.on('click', function(event) {
-	var old = index;
-	index = $(this).index();
-	change(index,old);
-});
 
-slidewarp.on('mouseover', function(event) {
-	clearInterval(timer);
-});
+	ctrl_item.on('click', function(event) {
+		var old = index;
+		index = $(this).index();
+		change(index,old);
+	});
 
-slidewarp.on('mouseleave', function(event) {
+	slidewarp.on('mouseover', function(event) {
+		clearInterval(timer);
+	});
+
+	slidewarp.on('mouseleave', function(event) {
+		autoStart();
+	});
+
+
+	$('.prev').on('click', function(event) {
+		var old = index;
+		if (index == 0) {
+			index = len-1;
+		}else {
+			index--;
+		}
+		change(index,old);
+	});
+
+	$('.next').on('click', function(event) {
+		var old = index;
+		if (index == len-1) {
+			index = 0;
+		}else {
+			index++;
+		}
+		change(index,old);
+	});
+
 	autoStart();
-});
 
-autoStart();
-
-function autoStart (argument) {
-	timer = setInterval(function (e) {
-	var old = index;
-	if (index >= len-1) {
-		index = 0;
-	}else {
-		index++;
+	function autoStart (argument) {
+		timer = setInterval(function (e) {
+		var old = index;
+		if (index >= len-1) {
+			index = 0;
+		}else {
+			index++;
+		}
+		change(index,old);
+	},2000);
 	}
-	change(index,old);
-},2000);
-}
 
-function change (show,hiden) {
-	slide_item.eq(hiden).animate({opacity:0},1000);
-	slide_item.eq(show).show().animate({opacity:1},1000);
-	ctrl_item.eq(show).addClass('ctrl_item_active').siblings().removeClass('ctrl_item_active');
-}
+	function change (show,hiden) {
+		slide_item.eq(hiden).animate({opacity:0},1000);
+		slide_item.eq(show).show().animate({opacity:1},1000);
+		ctrl_item.eq(show).addClass('ctrl_item_active').siblings().removeClass('ctrl_item_active');
+	}
+});
 
 </script>
 </body>
