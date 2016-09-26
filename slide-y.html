@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>上下滚动轮播图</title>
+	<script src='js/jquery.min.js'></script>
+	<link rel="stylesheet" href="css/slide.css">
+</head>
+<body>
+<div class="slidewarp">
+	<ul class="slide">
+		<li><img src="images/1.jpg"></li>
+		<li><img src="images/2.jpg"></li>
+		<li><img src="images/3.jpg"></li>
+		<li><img src="images/4.jpg"></li>
+		<li><img src="images/5.jpg"></li>
+	</ul>
+	<div class="ctrl">
+		<span class="ctrl_item ctrl_item_active"></span>
+		<span class="ctrl_item"></span>
+		<span class="ctrl_item"></span>
+		<span class="ctrl_item"></span>
+		<span class="ctrl_item"></span>
+	</div>
+	<a class="prev slide_change" href="javascript:;"></a>
+	<a class="next slide_change" href="javascript:;"></a>
+</div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+	
+	var slidewarp = $('.slidewarp');
+	var slide = $('.slide');
+	var slide_item = slide.find('li');
+	var ctrl = $('.ctrl');
+	var ctrl_item = $('.ctrl_item');
+	var slide_change = $('.slide_change');
+	var index = 0;
+	var len = slide_item.length;
+	var timer = null;
+	var height = slidewarp.height();
+
+	ctrl.css({
+		marginLeft: -($('.ctrl').width()/2)
+	});
+
+	slide.css('height',height*len);
+
+	slide_item.css({
+		float: 'left',
+		position: 'relative',
+		height: height
+	});
+	slide_item.find('img').css('height',height);
+
+
+	ctrl_item.on('click', function(event) {
+		var old = index;
+		index = $(this).index();
+		change(index,old);
+	});
+
+	slidewarp.on('mouseover', function(event) {
+		clearInterval(timer);
+		slide_change.css('opacity', '.6');
+	});
+
+	slidewarp.on('mouseleave', function(event) {
+		autoStart();
+		slide_change.css('opacity', '.2');
+	});
+
+	$('.prev').on('click', function(event) {
+		var old = index;
+		if (index == 0) {
+			index = len-1;
+		}else {
+			index--;
+		}
+		change(index,old);
+	});
+
+	$('.next').on('click', function(event) {
+		var old = index;
+		if (index == len-1) {
+			index = 0;
+		}else {
+			index++;
+		}
+		change(index,old);
+	});
+
+
+	autoStart();
+
+	function autoStart (argument) {
+		timer = setInterval(function (e) {
+		var old = index;
+		if (index >= len-1) {
+			index = 0;
+		}else {
+			index++;
+		}
+		change(index,old);
+	},2000);
+	}
+
+	function change (show,hiden) {
+		var y = show * height;
+		slide.animate({'marginTop':-y});
+		ctrl_item.eq(show).addClass('ctrl_item_active').siblings().removeClass('ctrl_item_active');
+	}
+});
+
+</script>
+</body>
+</html>
