@@ -3,9 +3,9 @@ myslide
 
 图片轮播
 html:
-<div class="slidewarp">
+<!-- <div class="slidewarp">
 	<ul class="slide">
-		<li><img src="images/1.jpg"></li>
+		<li><img src="imges/1.jpg"></li>
 		<li><img src="images/2.jpg"></li>
 		<li><img src="images/3.jpg"></li>
 		<li><img src="images/4.jpg"></li>
@@ -20,7 +20,7 @@ html:
 	</div>
 	<a class="prev slide_change" href="javascript:;"></a>
 	<a class="next slide_change" href="javascript:;"></a>
-</div>
+</div> -->
 
 css: 在css/slide.css文件中
 
